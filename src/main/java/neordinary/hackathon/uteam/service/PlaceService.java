@@ -30,9 +30,10 @@ public class PlaceService {
     private final EcoPlaceRepository ecoPlaceRepository;
 
     @Transactional
-    public Place save(PlaceRequest placeReq) {
+    public Place save(boolean isGreen, PlaceRequest placeReq) {
         String placeImageUrl = findPlaceImageUrl(placeReq.getKakaoPid());
         return placeRepository.save(Place.of(
+                isGreen,
                 placeReq.getKakaoPid(),
                 placeReq.getName(),
                 placeReq.getCategory(),
