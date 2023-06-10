@@ -27,14 +27,32 @@ public class HttpRequestService {
      * @return 요청에 대한 응답 데이터
      */
     public ResponseEntity<String> sendHttpRequest(String requestUrl, HttpMethod httpMethod, HttpHeaders headers) {
-        HttpEntity<MultiValueMap<String, String>> kakaoUserInfoRequest = new HttpEntity<>(headers);
+        return sendHttpRequest(requestUrl, httpMethod, headers, null);
+    }
 
-        log.info("[{}] Send http request with uri={}, method={}, headers={}", LogUtils.getLogTraceId(), requestUrl, httpMethod, headers);
+    /**
+     * 외부 server에 HTTP request를 보낸다.
+     *
+     * @param requestUrl 요청을 보낼 외부 서버의 url
+     * @param httpMethod 보낼 요청의 HTTP method
+     * @param headers    header 정보
+     * @param body       요청을 보낼 때 포함시킬 request body
+     * @return 요청에 대한 응답 데이터
+     */
+    public ResponseEntity<String> sendHttpRequest(String requestUrl, HttpMethod httpMethod, HttpHeaders headers, String body) {
+        HttpEntity<String> request;
+        if (body != null) {
+            request = new HttpEntity<>(body, headers);
+        } else {
+            request = new HttpEntity<>(headers);
+        }
+
+        log.info("[{}] Send http request with uri={}, method={}, headers={}, body={}", LogUtils.getLogTraceId(), requestUrl, httpMethod, headers, body);
 
         return restTemplate.exchange(
                 requestUrl,
                 httpMethod,
-                kakaoUserInfoRequest,
+                request,
                 String.class
         );
     }
