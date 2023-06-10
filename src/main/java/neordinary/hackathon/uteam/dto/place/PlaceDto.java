@@ -16,6 +16,7 @@ public class PlaceDto {
 
     private Long id;
     private Long courseId;
+    private Boolean isGreen;
     private String kakaoPid;
     private String name;
     private PlaceCategory category;
@@ -23,14 +24,15 @@ public class PlaceDto {
     private Position pos;
     private String url;
 
-    public static PlaceDto of(Long id, Long courseId, String kakaoPid, String name, PlaceCategory category, Address address, Position pos, String url) {
-        return new PlaceDto(id, courseId, kakaoPid, name, category, address, pos, url);
+    public static PlaceDto of(Long id, Long courseId, Boolean isGreen, String kakaoPid, String name, PlaceCategory category, Address address, Position pos, String url) {
+        return new PlaceDto(id, courseId, isGreen, kakaoPid, name, category, address, pos, url);
     }
 
     public static PlaceDto from(Place entity) {
         return of(
                 entity.getId(),
                 entity.getCourse().getId(),
+                entity.getIsGreen(),
                 entity.getKakaoPid(),
                 entity.getName(),
                 entity.getCategory(),

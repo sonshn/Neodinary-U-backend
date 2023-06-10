@@ -7,7 +7,6 @@ import neordinary.hackathon.uteam.domain.Place;
 import neordinary.hackathon.uteam.domain.User;
 import neordinary.hackathon.uteam.dto.course.CourseDto;
 import neordinary.hackathon.uteam.dto.course.request.CourseCreateRequest;
-import neordinary.hackathon.uteam.dto.place.PlaceDto;
 import neordinary.hackathon.uteam.repository.CourseRepository;
 import neordinary.hackathon.uteam.repository.HashtagRepository;
 import org.springframework.stereotype.Service;
@@ -30,12 +29,8 @@ public class CourseService {
         Course course = courseRepository.save(Course.of(user, request.getName(), request.getDescription()));
 
         request.getPlaces().forEach(placeReq -> {
-            if (!placeReq.getIsRecommended()) {
-                Place place = placeService.save(placeReq);
-                course.addPlace(place);
-            } else {
-                // TODO: 추천 장소인 경우에 대한 로직 구현
-            }
+            Place place = placeService.save(placeReq.getIsRecommended(), placeReq);
+            course.addPlace(place);
         });
 
         request.getHashtags().forEach(tag -> {

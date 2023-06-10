@@ -22,6 +22,9 @@ public class Place extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Course course;
 
+    @Column(nullable = false)
+    private Boolean isGreen;
+
     private String kakaoPid;
 
     @Column(nullable = false)
@@ -42,17 +45,18 @@ public class Place extends BaseTimeEntity {
 
     private String url;
 
-    public static Place of(String kakaoPid, String name, PlaceCategory category, String imageUrl, Address address, Position pos, String url) {
-        return new Place(null, kakaoPid, name, category, imageUrl, address, pos, url, null, null);
+    public static Place of(Boolean isGreen, String kakaoPid, String name, PlaceCategory category, String imageUrl, Address address, Position pos, String url) {
+        return of(null, isGreen, kakaoPid, name, category, imageUrl, address, pos, url, null, null);
     }
 
-    public static Place of(Long id, String kakaoPid, String name, PlaceCategory category, String imageUrl, Address address, Position pos, String url, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        return new Place(id, kakaoPid, name, category, imageUrl, address, pos, url, createdAt, updatedAt);
+    public static Place of(Long id, Boolean isGreen, String kakaoPid, String name, PlaceCategory category, String imageUrl, Address address, Position pos, String url, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        return new Place(id, isGreen, kakaoPid, name, category, imageUrl, address, pos, url, createdAt, updatedAt);
     }
 
-    private Place(Long id, String kakaoPid, String name, PlaceCategory category, String imageUrl, Address address, Position pos, String url, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    private Place(Long id, Boolean isGreen, String kakaoPid, String name, PlaceCategory category, String imageUrl, Address address, Position pos, String url, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(createdAt, updatedAt);
         this.id = id;
+        this.isGreen = isGreen;
         this.kakaoPid = kakaoPid;
         this.name = name;
         this.category = category;
