@@ -6,16 +6,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import neordinary.hackathon.uteam.dto.course.CourseDto;
 import neordinary.hackathon.uteam.dto.course.request.CourseCreateRequest;
+import neordinary.hackathon.uteam.dto.course.response.CourseDescriptionResponse;
 import neordinary.hackathon.uteam.dto.course.response.CourseResponse;
 import neordinary.hackathon.uteam.security.UserPrincipal;
 import neordinary.hackathon.uteam.service.CourseService;
+import neordinary.hackathon.uteam.service.OpenAIService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -27,6 +26,7 @@ import java.net.URI;
 public class CourseController {
 
     private final CourseService courseService;
+    private final OpenAIService openAIService;
 
     @Operation(
             summary = "코스 업로드",
@@ -43,5 +43,15 @@ public class CourseController {
                 .status(HttpStatus.CREATED)
                 .location(URI.create("/courses/" + course.getId()))
                 .body(CourseResponse.from(course));
+    }
+
+    @Operation(
+            summary = "코스 설명 자동생성 (feat. gpt)",
+            description = "코스 설명을 자동 생성합니다. 수 초가 걸릴 수 있습니다.",
+            security = @SecurityRequirement(name = "access-token")
+    )
+    @GetMapping
+    public CourseDescriptionResponse createAutoDescription(@RequestParam String query) {
+        return CourseDescriptionResponse.of(openAIService.chat(query).getAnswer());
     }
 }
