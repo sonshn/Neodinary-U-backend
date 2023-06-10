@@ -43,6 +43,7 @@ public class PointHistory extends BaseTimeEntity {
         this.id = id;
         this.user = user;
         this.reason = reason;
+        this.point = point;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
