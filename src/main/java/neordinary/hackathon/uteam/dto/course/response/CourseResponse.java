@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import neordinary.hackathon.uteam.dto.course.CourseDto;
 import neordinary.hackathon.uteam.dto.place.response.PlaceResponse;
+import neordinary.hackathon.uteam.dto.review.response.ReviewResponse;
 import neordinary.hackathon.uteam.dto.user.response.UserResponse;
 
 import java.util.List;
@@ -33,8 +34,11 @@ public class CourseResponse {
     @Schema(description = "코스의 해시태그 목록")
     private List<String> hashtags;
 
-    public static CourseResponse of(Long id, UserResponse user, String name, String description, List<PlaceResponse> places, List<String> hashtags) {
-        return new CourseResponse(id, user, name, description, places, hashtags);
+    @Schema(description = "후기 목록")
+    private List<ReviewResponse> reviews;
+
+    public static CourseResponse of(Long id, UserResponse user, String name, String description, List<PlaceResponse> places, List<String> hashtags, List<ReviewResponse> reviews) {
+        return new CourseResponse(id, user, name, description, places, hashtags, reviews);
     }
 
     public static CourseResponse from(CourseDto dto) {
@@ -48,6 +52,9 @@ public class CourseResponse {
                         .collect(Collectors.toUnmodifiableList()),
                 dto.getHashtagDtos().stream()
                         .map(hashtag -> "#" + hashtag.getTag())
+                        .collect(Collectors.toUnmodifiableList()),
+                dto.getReviewDtos().stream()
+                        .map(ReviewResponse::from)
                         .collect(Collectors.toUnmodifiableList())
         );
     }
