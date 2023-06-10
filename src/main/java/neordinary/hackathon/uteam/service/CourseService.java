@@ -7,10 +7,13 @@ import neordinary.hackathon.uteam.domain.Place;
 import neordinary.hackathon.uteam.domain.User;
 import neordinary.hackathon.uteam.dto.course.CourseDto;
 import neordinary.hackathon.uteam.dto.course.request.CourseCreateRequest;
+import neordinary.hackathon.uteam.exception.course.CourseNotFoundByIdException;
 import neordinary.hackathon.uteam.repository.CourseRepository;
 import neordinary.hackathon.uteam.repository.HashtagRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -40,5 +43,19 @@ public class CourseService {
         });
 
         return CourseDto.from(course);
+    }
+
+    public Course findById(Long courseId) {
+        return courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundByIdException(courseId));
+    }
+
+    public CourseDto findDtoById(Long courseId) {
+        return CourseDto.from(findById(courseId));
+    }
+
+    public List<CourseDto> findAllDtos() {
+        return courseRepository.findAll().stream()
+                .map(CourseDto::from)
+                .toList();
     }
 }

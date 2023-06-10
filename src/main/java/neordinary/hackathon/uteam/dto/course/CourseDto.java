@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import neordinary.hackathon.uteam.domain.Course;
 import neordinary.hackathon.uteam.dto.hashtag.HashtagDto;
 import neordinary.hackathon.uteam.dto.place.PlaceDto;
+import neordinary.hackathon.uteam.dto.review.ReviewDto;
 import neordinary.hackathon.uteam.dto.user.UserDto;
 
 import java.util.List;
@@ -23,9 +24,10 @@ public class CourseDto {
     private String description;
     private List<PlaceDto> placeDtos;
     private List<HashtagDto> hashtagDtos;
+    private List<ReviewDto> reviewDtos;
 
-    public static CourseDto of(Long id, UserDto userDto, String name, String description, List<PlaceDto> placeDtos, List<HashtagDto> hashtagDtos) {
-        return new CourseDto(id, userDto, name, description, placeDtos, hashtagDtos);
+    public static CourseDto of(Long id, UserDto userDto, String name, String description, List<PlaceDto> placeDtos, List<HashtagDto> hashtagDtos, List<ReviewDto> reviewDtos) {
+        return new CourseDto(id, userDto, name, description, placeDtos, hashtagDtos, reviewDtos);
     }
 
     public static CourseDto from(Course entity) {
@@ -39,6 +41,9 @@ public class CourseDto {
                         .collect(Collectors.toUnmodifiableList()),
                 entity.getHashtags().stream()
                         .map(HashtagDto::from)
+                        .collect(Collectors.toUnmodifiableList()),
+                entity.getReviews().stream()
+                        .map(ReviewDto::from)
                         .collect(Collectors.toUnmodifiableList())
         );
     }
