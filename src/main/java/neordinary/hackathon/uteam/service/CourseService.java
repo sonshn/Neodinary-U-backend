@@ -7,6 +7,7 @@ import neordinary.hackathon.uteam.domain.Place;
 import neordinary.hackathon.uteam.domain.User;
 import neordinary.hackathon.uteam.dto.course.CourseDto;
 import neordinary.hackathon.uteam.dto.course.request.CourseCreateRequest;
+import neordinary.hackathon.uteam.exception.course.CourseNotFoundByIdException;
 import neordinary.hackathon.uteam.repository.CourseRepository;
 import neordinary.hackathon.uteam.repository.HashtagRepository;
 import org.springframework.stereotype.Service;
@@ -40,5 +41,9 @@ public class CourseService {
         });
 
         return CourseDto.from(course);
+    }
+
+    public Course findById(Long courseId) {
+        return courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundByIdException(courseId));
     }
 }
