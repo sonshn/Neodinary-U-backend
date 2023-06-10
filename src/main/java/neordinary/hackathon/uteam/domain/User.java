@@ -72,4 +72,12 @@ public class User extends BaseTimeEntity {
         userHashtag.setUser(this);
         this.getUserHashtags().add(userHashtag);
     }
+
+    public void increasePoint(int point) {
+        this.point += point;
+    }
+
+    public void decreasePoint(int point) {
+        this.point -= point;
+    }
 }

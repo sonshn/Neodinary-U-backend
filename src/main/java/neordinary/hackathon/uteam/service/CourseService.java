@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static neordinary.hackathon.uteam.constant.ConstantUtils.COURSE_UPLOAD_POINT;
+import static neordinary.hackathon.uteam.constant.ConstantUtils.COURSE_UPLOAD_REASON;
+
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -22,6 +25,7 @@ public class CourseService {
 
     private final UserService userService;
     private final PlaceService placeService;
+    private final PointHistoryService pointHistoryService;
     private final CourseRepository courseRepository;
     private final HashtagRepository hashtagRepository;
 
@@ -30,17 +34,18 @@ public class CourseService {
         User user = userService.findById(userId);
 
         Course course = courseRepository.save(Course.of(user, request.getName(), request.getDescription()));
-
         request.getPlaces().forEach(placeReq -> {
             Place place = placeService.save(placeReq.getIsRecommended(), placeReq);
             course.addPlace(place);
         });
-
         request.getHashtags().forEach(tag -> {
             String hashtagRemovedSharp = tag.substring(1);
             Hashtag hashtag = hashtagRepository.save(Hashtag.of(hashtagRemovedSharp));
             course.addHashtag(hashtag);
         });
+
+        user.increasePoint(COURSE_UPLOAD_POINT);
+        pointHistoryService.save(userId, COURSE_UPLOAD_REASON, COURSE_UPLOAD_POINT);
 
         return CourseDto.from(course);
     }
