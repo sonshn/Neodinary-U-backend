@@ -52,10 +52,12 @@ public class Course extends BaseTimeEntity {
     }
 
     public void addPlace(Place place) {
+        place.setCourse(this);
         this.getPlaces().add(place);
     }
 
     public void addHashtag(Hashtag hashtag) {
+        hashtag.setCourse(this);
         this.getHashtags().add(hashtag);
     }
 }

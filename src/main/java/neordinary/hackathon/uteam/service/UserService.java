@@ -22,7 +22,7 @@ public class UserService {
         return UserDto.from(userRepository.save(userDto.toEntity()));
     }
 
-    private User findById(Long userId) {
+    public User findById(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new UserNotFoundByIdException(userId));
     }
 
