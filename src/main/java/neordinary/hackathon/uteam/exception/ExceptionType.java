@@ -5,9 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import neordinary.hackathon.uteam.constant.exception.ValidationErrorCode;
+import neordinary.hackathon.uteam.domain.Place;
 import neordinary.hackathon.uteam.domain.User;
 import neordinary.hackathon.uteam.exception.auth.TokenValidateException;
 import neordinary.hackathon.uteam.exception.kakao.KakaoTokenValidateException;
+import neordinary.hackathon.uteam.exception.place.PlaceImageFindingException;
+import neordinary.hackathon.uteam.exception.place.PlaceNotFoundByIdException;
 import neordinary.hackathon.uteam.exception.user.UserNotFoundByIdException;
 import neordinary.hackathon.uteam.logger.LogUtils;
 import org.springframework.beans.ConversionNotSupportedException;
@@ -75,6 +78,12 @@ public enum ExceptionType {
      * 유저({@link User}) 관련 예외
      */
     USER_NOT_FOUND_BY_ID(2000, "일치하는 유저를 찾을 수 없습니다.", UserNotFoundByIdException.class),
+
+    /**
+     * 장소({@link Place}) 관련 예외
+     */
+    PLACE_NOT_FOUND_BY_ID(2500, "일치하는 장소를 찾을 수 없습니다.", PlaceNotFoundByIdException.class),
+    PLACE_IMAGE_FINDING(2501, "장소 이미지를 찾던 중 알 수 없는 에러가 발생했습니다.", PlaceImageFindingException.class),
 
     /**
      * Kakao server 관련 예외

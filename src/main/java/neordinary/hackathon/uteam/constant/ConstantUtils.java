@@ -11,4 +11,5 @@ public class ConstantUtils {
     public static final String defaultProfileImageUrl = "https://eatery-s3-bucket.s3.ap-northeast-2.amazonaws.com/member/default-profile-image";
     public static final String defaultProfileThumbnailImageUrl = "https://eatery-s3-bucket.s3.ap-northeast-2.amazonaws.com/member/default-profile-image";
 
+    public static final String PLACE_DEFAULT_IMAGE_URL = "https://climate.onep.go.th/wp-content/uploads/2020/01/default-image.jpg";
 }

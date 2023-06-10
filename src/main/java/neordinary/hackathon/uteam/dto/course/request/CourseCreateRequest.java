@@ -5,10 +5,17 @@ import lombok.Getter;
 import neordinary.hackathon.uteam.dto.place.request.PlaceRequest;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
 public class CourseCreateRequest {
+
+    @Schema(description = "<p>추천 장소 여부." +
+            "<p>추천 장소라면 <code>true</code>, 추천 장소가 아니라면 <code>false</code>이다.",
+            example = "false")
+    @NotNull
+    private Boolean isRecommended;
 
     @Schema(description = "코스 이름", example = "A코스")
     @NotEmpty

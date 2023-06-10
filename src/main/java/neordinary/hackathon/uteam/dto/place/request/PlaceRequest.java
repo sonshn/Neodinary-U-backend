@@ -3,6 +3,7 @@ package neordinary.hackathon.uteam.dto.place.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import neordinary.hackathon.uteam.constant.PlaceCategory;
+import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 public class PlaceRequest {
 
     @Schema(description = "Kakao에서 응답받은 장소의 id", example = "26338954")
+    @Nullable
     private String kakaoPid;
 
     @Schema(description = "장소 이름", example = "카카오프렌즈 코엑스점")

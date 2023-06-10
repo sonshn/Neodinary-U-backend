@@ -50,6 +50,9 @@ dependencies {
     // Validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
+    // JSoup
+    implementation 'org.jsoup:jsoup:1.16.1'
+
     // JSON and Gson for parse String in format JSON
     implementation 'org.json:json:20230227'
     implementation 'com.google.code.gson:gson:2.10.1'
