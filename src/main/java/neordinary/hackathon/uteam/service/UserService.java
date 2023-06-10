@@ -5,6 +5,7 @@ import neordinary.hackathon.uteam.domain.User;
 import neordinary.hackathon.uteam.dto.user.UserDto;
 import neordinary.hackathon.uteam.exception.user.UserNotFoundByIdException;
 import neordinary.hackathon.uteam.repository.UserRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ public class UserService {
         return userRepository.findBySocialUid(socialUid).map(UserDto::from);
     }
 
+    @Cacheable(value = "user", key = "#userId")
     public UserDto findDtoById(Long userId) {
         return UserDto.from(findById(userId));
     }
