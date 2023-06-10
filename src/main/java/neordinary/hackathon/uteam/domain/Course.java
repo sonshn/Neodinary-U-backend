@@ -32,6 +32,9 @@ public class Course extends BaseTimeEntity {
     @OneToMany(mappedBy = "course")
     private List<Place> places = new LinkedList<>();
 
+    @OneToMany(mappedBy = "course")
+    private List<Hashtag> hashtags = new LinkedList<>();
+
     public static Course of(User user, String name, String description) {
         return new Course(null, user, name, description, null, null);
     }
@@ -49,7 +52,10 @@ public class Course extends BaseTimeEntity {
     }
 
     public void addPlace(Place place) {
-        place.setCourse(this);
         this.getPlaces().add(place);
+    }
+
+    public void addHashtag(Hashtag hashtag) {
+        this.getHashtags().add(hashtag);
     }
 }
