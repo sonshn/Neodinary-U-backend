@@ -14,7 +14,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Getter
 @Embeddable
-public class Point {
+public class Position {
 
     @Schema(description = "위도", example = "37.5595073462493")
     @Column(nullable = false)
@@ -27,7 +27,7 @@ public class Point {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Point that)) return false;
+        if (!(o instanceof Position that)) return false;
         return Objects.equals(this.getLat(), that.getLat())
                 && Objects.equals(this.getLng(), that.getLng());
     }

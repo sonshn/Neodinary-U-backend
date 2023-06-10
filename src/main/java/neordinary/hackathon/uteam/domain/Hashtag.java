@@ -32,4 +32,8 @@ public class Hashtag {
     public static Hashtag of(Long id, Course course, String tag) {
         return new Hashtag(id, course, tag);
     }
+
+    protected void setCourse(Course course) {
+        this.course = course;
+    }
 }

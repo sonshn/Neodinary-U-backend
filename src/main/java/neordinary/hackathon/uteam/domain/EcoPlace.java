@@ -29,22 +29,22 @@ public class EcoPlace extends BaseTimeEntity {
     private Address address;
 
     @Embedded
-    private Point point;
+    private Position pos;
 
-    public static EcoPlace of(String name, PlaceCategory category, Address address, Point point) {
-        return new EcoPlace(null, name, category, address, point, null, null);
+    public static EcoPlace of(String name, PlaceCategory category, Address address, Position pos) {
+        return new EcoPlace(null, name, category, address, pos, null, null);
     }
 
-    public static EcoPlace of(Long id, String name, PlaceCategory category, Address address, Point point, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        return new EcoPlace(id, name, category, address, point, createdAt, updatedAt);
+    public static EcoPlace of(Long id, String name, PlaceCategory category, Address address, Position pos, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        return new EcoPlace(id, name, category, address, pos, createdAt, updatedAt);
     }
 
-    private EcoPlace(Long id, String name, PlaceCategory category, Address address, Point point, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    private EcoPlace(Long id, String name, PlaceCategory category, Address address, Position pos, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(createdAt, updatedAt);
         this.id = id;
         this.name = name;
         this.category = category;
         this.address = address;
-        this.point = point;
+        this.pos = pos;
     }
 }
