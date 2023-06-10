@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/netbeans,gradle,java,intellij+all,windows,macos,eclipse
 # Edit at https://www.toptal.com/developers/gitignore?templates=netbeans,gradle,java,intellij+all,windows,macos,eclipse
 
+### Custom ###
+src/main/resources/application-local.properties
+
 ### Eclipse ###
 .metadata
 bin/
