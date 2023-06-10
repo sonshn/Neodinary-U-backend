@@ -25,6 +25,10 @@ dependencies {
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
+    implementation 'org.springdoc:springdoc-openapi-security:1.7.0'
+
     // Spring AOP
     implementation 'org.springframework.boot:spring-boot-starter-aop'
 
