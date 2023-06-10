@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import neordinary.hackathon.uteam.constant.exception.ValidationErrorCode;
 import neordinary.hackathon.uteam.domain.Course;
+import neordinary.hackathon.uteam.domain.Like;
 import neordinary.hackathon.uteam.domain.Place;
 import neordinary.hackathon.uteam.domain.User;
 import neordinary.hackathon.uteam.exception.auth.TokenValidateException;
@@ -16,6 +17,7 @@ import neordinary.hackathon.uteam.exception.place.PlaceListEmptyException;
 import neordinary.hackathon.uteam.exception.place.PlaceNotFoundByIdException;
 import neordinary.hackathon.uteam.exception.user.UserNotFoundByIdException;
 import neordinary.hackathon.uteam.logger.LogUtils;
+import neordinary.hackathon.uteam.service.AlreadyLikedCourseException;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -93,6 +95,11 @@ public enum ExceptionType {
      * 코스({@link Course}) 관련 예외
      */
     COURSE_NOT_FOUND_BY_ID(3000, "일치하는 코스를 찾을 수 없습니다.", CourseNotFoundByIdException.class),
+
+    /**
+     * 좋아요({@link Like}) 관련 예외
+     */
+    ALREADY_LIKED_COURSE(3500, "이미 좋아요 한 코스입니다.", AlreadyLikedCourseException.class),
 
     /**
      * Kakao server 관련 예외
