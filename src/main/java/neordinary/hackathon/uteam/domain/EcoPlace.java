@@ -25,11 +25,15 @@ public class EcoPlace extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private PlaceCategory category;
 
-    @Embedded
-    private Address address;
+    private String lotNumberAddress;
 
-    @Embedded
-    private Position pos;
+    private String roadAddress;
+
+    @Column(nullable = false)
+    private String lat;
+
+    @Column(nullable = false)
+    private String lng;
 
     @Column
     private String url;
@@ -37,23 +41,19 @@ public class EcoPlace extends BaseTimeEntity {
     @Column(nullable = false)
     private String imageUrl;
 
-    public static EcoPlace of(String name, PlaceCategory category, Address address, Position pos, String url, String imageUrl) {
-        return new EcoPlace(null, name, category, address, pos, null, null, null, null);
+    public static EcoPlace of(Long id, String name, PlaceCategory category, String lotNumberAddress, String roadAddress, String lat, String lng, String url, String imageUrl, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        return new EcoPlace(id, name, category, lotNumberAddress, roadAddress, lat, lng, url, imageUrl, createdAt, updatedAt);
     }
 
-    public static EcoPlace of(Long id, String name, PlaceCategory category, Address address, Position pos,
-                              String url, String imageUrl, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        return new EcoPlace(id, name, category, address, pos, url, imageUrl, createdAt, updatedAt);
-    }
-
-    private EcoPlace(Long id, String name, PlaceCategory category, Address address, Position pos,
-                     String url, String imageUrl, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    private EcoPlace(Long id, String name, PlaceCategory category, String lotNumberAddress, String roadAddress, String lat, String lng, String url, String imageUrl, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(createdAt, updatedAt);
         this.id = id;
         this.name = name;
         this.category = category;
-        this.address = address;
-        this.pos = pos;
+        this.lotNumberAddress = lotNumberAddress;
+        this.roadAddress = roadAddress;
+        this.lat = lat;
+        this.lng = lng;
         this.url = url;
         this.imageUrl = imageUrl;
     }
