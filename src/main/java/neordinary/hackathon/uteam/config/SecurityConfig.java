@@ -26,7 +26,6 @@ public class SecurityConfig {
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    private static final String BASE_URL = "/api";
     private static final String[] AUTH_WHITE_LIST = {
             "/auth/login/**",
             "/auth/token"
@@ -45,7 +44,7 @@ public class SecurityConfig {
                                     .mvcMatchers("/swagger-ui/**", "/v3/api-docs/**", "/actuator/**").permitAll();
                             Arrays.stream(AUTH_WHITE_LIST)
                                     .forEach(authWhiteListElem ->
-                                            auth.mvcMatchers(BASE_URL + authWhiteListElem).permitAll());
+                                            auth.mvcMatchers(authWhiteListElem).permitAll());
                             auth.anyRequest().authenticated();
                         }
                 )
