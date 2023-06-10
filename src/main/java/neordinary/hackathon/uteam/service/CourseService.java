@@ -1,12 +1,15 @@
 package neordinary.hackathon.uteam.service;
 
 import lombok.RequiredArgsConstructor;
-import neordinary.hackathon.uteam.domain.*;
+import neordinary.hackathon.uteam.domain.Course;
+import neordinary.hackathon.uteam.domain.Hashtag;
+import neordinary.hackathon.uteam.domain.Place;
+import neordinary.hackathon.uteam.domain.User;
 import neordinary.hackathon.uteam.dto.course.CourseDto;
 import neordinary.hackathon.uteam.dto.course.request.CourseCreateRequest;
+import neordinary.hackathon.uteam.dto.place.PlaceDto;
 import neordinary.hackathon.uteam.repository.CourseRepository;
 import neordinary.hackathon.uteam.repository.HashtagRepository;
-import neordinary.hackathon.uteam.repository.PlaceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class CourseService {
 
     private final UserService userService;
+    private final PlaceService placeService;
     private final CourseRepository courseRepository;
-    private final PlaceRepository placeRepository;
     private final HashtagRepository hashtagRepository;
 
     @Transactional
@@ -27,15 +30,12 @@ public class CourseService {
         Course course = courseRepository.save(Course.of(user, request.getName(), request.getDescription()));
 
         request.getPlaces().forEach(placeReq -> {
-            Place place = placeRepository.save(Place.of(
-                    placeReq.getKakaoPid(),
-                    placeReq.getName(),
-                    placeReq.getCategory(),
-                    new Address(placeReq.getLotNumberAddress(), placeReq.getRoadAddress()),
-                    new Position(placeReq.getLat(), placeReq.getLng()),
-                    placeReq.getUrl()
-            ));
-            course.addPlace(place);
+            if (!request.getIsRecommended()) {
+                Place place = placeService.save(placeReq);
+                course.addPlace(place);
+            } else {
+                // TODO: 추천 장소인 경우에 대한 로직 구현
+            }
         });
 
         request.getHashtags().forEach(tag -> {
