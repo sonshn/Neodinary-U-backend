@@ -3,8 +3,8 @@ package neordinary.hackathon.uteam.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import neordinary.hackathon.uteam.constant.member.LoginType;
-import neordinary.hackathon.uteam.constant.member.RoleType;
+import neordinary.hackathon.uteam.constant.user.LoginType;
+import neordinary.hackathon.uteam.constant.user.RoleType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,7 +20,7 @@ public class User extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String socialUid;
 
     @Column(nullable = false)
@@ -35,23 +35,31 @@ public class User extends BaseTimeEntity {
     private String name;
 
     @Column(nullable = false)
+    private String profileImageUrl;
+
+    @Column(nullable = false)
+    private String profileThumbnailImageUrl;
+
+    @Column(nullable = false)
     private Integer point;
 
-    public User of(String socialUid, LoginType loginType, String name) {
-        return of(null, socialUid, loginType, RoleType.USER, name, 0, null, null);
+    public static User of(String socialUid, LoginType loginType, String name, String profileImageUrl, String profileThumbnailImageUrl) {
+        return of(null, socialUid, loginType, RoleType.USER, name, profileImageUrl, profileThumbnailImageUrl, 0, null, null);
     }
 
-    public User of(Long id, String socialUid, LoginType loginType, RoleType role, String name, Integer point, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        return new User(id, socialUid, loginType, role, name, point, createdAt, updatedAt);
+    public static User of(Long id, String socialUid, LoginType loginType, RoleType role, String name, String profileImageUrl, String profileThumbnailImageUrl, Integer point, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        return new User(id, socialUid, loginType, role, name, profileImageUrl, profileThumbnailImageUrl, point, createdAt, updatedAt);
     }
 
-    private User(Long id, String socialUid, LoginType loginType, RoleType role, String name, Integer point, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public User(Long id, String socialUid, LoginType loginType, RoleType role, String name, String profileImageUrl, String profileThumbnailImageUrl, Integer point, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(createdAt, updatedAt);
         this.id = id;
-        this.loginType = loginType;
         this.socialUid = socialUid;
+        this.loginType = loginType;
         this.role = role;
         this.name = name;
+        this.profileImageUrl = profileImageUrl;
+        this.profileThumbnailImageUrl = profileThumbnailImageUrl;
         this.point = point;
     }
 }

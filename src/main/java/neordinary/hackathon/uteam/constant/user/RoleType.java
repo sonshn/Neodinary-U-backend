@@ -1,4 +1,4 @@
-package neordinary.hackathon.uteam.constant.member;
+package neordinary.hackathon.uteam.constant.user;
 
 import lombok.Getter;
 

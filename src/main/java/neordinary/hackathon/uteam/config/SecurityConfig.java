@@ -2,12 +2,17 @@ package neordinary.hackathon.uteam.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import neordinary.hackathon.uteam.security.JwtAccessDeniedHandler;
+import neordinary.hackathon.uteam.security.JwtAuthenticationEntryPoint;
+import neordinary.hackathon.uteam.security.JwtAuthenticationFilter;
+import neordinary.hackathon.uteam.security.JwtExceptionFilter;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.Arrays;
 
@@ -15,6 +20,11 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
+
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtExceptionFilter jwtExceptionFilter;
+    private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     private static final String BASE_URL = "/api";
     private static final String[] AUTH_WHITE_LIST = {
@@ -38,6 +48,13 @@ public class SecurityConfig {
                                             auth.mvcMatchers(BASE_URL + authWhiteListElem).permitAll());
                             auth.anyRequest().authenticated();
                         }
-                ).build();
+                )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtExceptionFilter, jwtAuthenticationFilter.getClass())
+                .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> httpSecurityExceptionHandlingConfigurer
+                        .accessDeniedHandler(jwtAccessDeniedHandler)
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                )
+                .build();
     }
 }

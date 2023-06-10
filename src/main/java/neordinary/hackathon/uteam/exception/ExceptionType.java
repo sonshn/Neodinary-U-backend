@@ -5,6 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import neordinary.hackathon.uteam.constant.exception.ValidationErrorCode;
+import neordinary.hackathon.uteam.domain.User;
+import neordinary.hackathon.uteam.exception.auth.TokenValidateException;
+import neordinary.hackathon.uteam.exception.kakao.KakaoTokenValidateException;
+import neordinary.hackathon.uteam.exception.user.UserNotFoundByIdException;
 import neordinary.hackathon.uteam.logger.LogUtils;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
@@ -65,6 +69,18 @@ public enum ExceptionType {
      */
     ACCESS_DENIED(1500, "접근이 거부되었습니다.", null),
     UNAUTHORIZED(1501, "유효하지 않은 인증 정보로 인해 인증 과정에서 문제가 발생하였습니다.", null),
+    TOKEN_VALIDATE(1502, "유효하지 않은 token입니다. Token 값이 잘못되었거나 만료되어 유효하지 않은 경우로 token 갱신이 필요합니다.", TokenValidateException.class),
+
+    /**
+     * 유저({@link User}) 관련 예외
+     */
+    USER_NOT_FOUND_BY_ID(2000, "일치하는 유저를 찾을 수 없습니다.", UserNotFoundByIdException.class),
+
+    /**
+     * Kakao server 관련 예외
+     */
+    KAKAO_SERVER(10000, "카카오 서버와의 통신에서 에러가 발생했습니다.", null),
+    KAKAO_TOKEN_VALIDATE(10000, "유효하지 않은 kakao access token입니다. 요청 데이터가 잘못 되었거나 토큰이 만료되지 않았는지 확인해주세요.", KakaoTokenValidateException.class),
     ;
 
     private final Integer code;
