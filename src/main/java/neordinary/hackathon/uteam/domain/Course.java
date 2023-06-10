@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -27,6 +29,12 @@ public class Course extends BaseTimeEntity {
     @Column(length = 500, nullable = false)
     private String description;
 
+    @OneToMany(mappedBy = "course")
+    private List<Place> places = new LinkedList<>();
+
+    @OneToMany(mappedBy = "course")
+    private List<Hashtag> hashtags = new LinkedList<>();
+
     public static Course of(User user, String name, String description) {
         return new Course(null, user, name, description, null, null);
     }
@@ -41,5 +49,13 @@ public class Course extends BaseTimeEntity {
         this.user = user;
         this.name = name;
         this.description = description;
+    }
+
+    public void addPlace(Place place) {
+        this.getPlaces().add(place);
+    }
+
+    public void addHashtag(Hashtag hashtag) {
+        this.getHashtags().add(hashtag);
     }
 }

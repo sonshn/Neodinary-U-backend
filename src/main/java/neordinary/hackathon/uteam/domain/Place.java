@@ -18,7 +18,7 @@ public class Place extends BaseTimeEntity {
     @Column(name = "place_id")
     private Long id;
 
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Course course;
 
@@ -39,23 +39,26 @@ public class Place extends BaseTimeEntity {
 
     private String url;
 
-    public static Place of(Course course, String kakaoPid, String name, PlaceCategory category, Address address, Point point, String url) {
-        return new Place(null, course, kakaoPid, name, category, address, point, url, null, null);
+    public static Place of(String kakaoPid, String name, PlaceCategory category, Address address, Point point, String url) {
+        return new Place(null, kakaoPid, name, category, address, point, url, null, null);
     }
 
-    public static Place of(Long id, Course course, String kakaoPid, String name, PlaceCategory category, Address address, Point point, String url, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        return new Place(id, course, kakaoPid, name, category, address, point, url, createdAt, updatedAt);
+    public static Place of(Long id, String kakaoPid, String name, PlaceCategory category, Address address, Point point, String url, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        return new Place(id, kakaoPid, name, category, address, point, url, createdAt, updatedAt);
     }
 
-    private Place(Long id, Course course, String kakaoPid, String name, PlaceCategory category, Address address, Point point, String url, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    private Place(Long id, String kakaoPid, String name, PlaceCategory category, Address address, Point point, String url, LocalDateTime createdAt, LocalDateTime updatedAt) {
         super(createdAt, updatedAt);
         this.id = id;
-        this.course = course;
         this.kakaoPid = kakaoPid;
         this.name = name;
         this.category = category;
         this.address = address;
         this.point = point;
         this.url = url;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }
