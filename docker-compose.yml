@@ -1,0 +1,17 @@
+version: "3"
+services:
+  backend:
+    platform: linux/amd64
+    build: .
+    image: siwall0105/uteam-server
+    container_name: uteam-server
+    ports:
+      - "8080:8080"
+    networks:
+      - uteam-network
+    volumes:
+      - ./log:/spring/log
+
+networks:
+  uteam-network:
+    external: true
