@@ -30,7 +30,7 @@ public class CourseService {
         Course course = courseRepository.save(Course.of(user, request.getName(), request.getDescription()));
 
         request.getPlaces().forEach(placeReq -> {
-            if (!request.getIsRecommended()) {
+            if (!placeReq.getIsRecommended()) {
                 Place place = placeService.save(placeReq);
                 course.addPlace(place);
             } else {

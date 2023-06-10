@@ -11,6 +11,12 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class PlaceRequest {
 
+    @Schema(description = "<p>추천 장소 여부." +
+            "<p>추천 장소라면 <code>true</code>, 추천 장소가 아니라면 <code>false</code>이다.",
+            example = "false")
+    @NotNull
+    private Boolean isRecommended;
+
     @Schema(description = "Kakao에서 응답받은 장소의 id", example = "26338954")
     @Nullable
     private String kakaoPid;
