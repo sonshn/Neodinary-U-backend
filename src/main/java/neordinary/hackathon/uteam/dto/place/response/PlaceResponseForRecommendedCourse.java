@@ -31,6 +31,9 @@ public class PlaceResponseForRecommendedCourse {
 
     private PlaceCategory category;
 
+    @Schema(description = "장소 이미지 url", example = "https://image...")
+    private String imageUrl;
+
     @Schema(description = "지번주소", example = "서울 강남구 삼성동 159")
     private String lotNumberAddress;
 
@@ -48,8 +51,8 @@ public class PlaceResponseForRecommendedCourse {
     @Schema(description = "상세페이지 주소", example = "http://place.map.daum.net/26338954")
     private String url;
 
-    public static PlaceResponseForRecommendedCourse of(Boolean isRecommended, @Nullable String kakaoPid, String name, PlaceCategory category, String lotNumberAddress, String roadAddress, String lat, String lng, String url) {
-        return new PlaceResponseForRecommendedCourse(isRecommended, kakaoPid, name, category, lotNumberAddress, roadAddress, lat, lng, url);
+    public static PlaceResponseForRecommendedCourse of(Boolean isRecommended, @Nullable String kakaoPid, String name, PlaceCategory category, String imageUrl, String lotNumberAddress, String roadAddress, String lat, String lng, String url) {
+        return new PlaceResponseForRecommendedCourse(isRecommended, kakaoPid, name, category, imageUrl, lotNumberAddress, roadAddress, lat, lng, url);
     }
 
     public static PlaceResponseForRecommendedCourse from(PlaceRequest place) {
@@ -58,6 +61,7 @@ public class PlaceResponseForRecommendedCourse {
                 place.getKakaoPid(),
                 place.getName(),
                 place.getCategory(),
+                null,
                 place.getLotNumberAddress(),
                 place.getRoadAddress(),
                 place.getLat(),
@@ -72,6 +76,7 @@ public class PlaceResponseForRecommendedCourse {
                 null,
                 place.getName(),
                 place.getCategory(),
+                place.getImageUrl(),
                 place.getLotNumberAddress(),
                 place.getRoadAddress(),
                 place.getLat(),
