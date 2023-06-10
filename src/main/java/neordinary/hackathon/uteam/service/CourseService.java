@@ -53,7 +53,7 @@ public class CourseService {
         return CourseDto.from(findById(courseId));
     }
 
-    public List<CourseDto> findAllDtos() {
+    public List<CourseDto> searchDtos(String keyword) {
         return courseRepository.findAll().stream()
                 .map(CourseDto::from)
                 .toList();

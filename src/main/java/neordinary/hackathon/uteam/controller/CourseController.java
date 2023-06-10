@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import neordinary.hackathon.uteam.dto.course.CourseDto;
 import neordinary.hackathon.uteam.dto.course.request.CourseCreateRequest;
@@ -60,13 +59,17 @@ public class CourseController {
     }
 
     @Operation(
-            summary = "코스 전체 조회",
-            description = "존재하는 모든 course를 불러온다. 정렬 기준은 오래된 순이다. (정렬 필요하면 우기에게 말할 것)",
+            summary = "코스 검색",
+            description = "<p><code>keyword</code>로 코스를 검색한다." +
+                    "<p><code>keyword</code>를 전달하지 않으면 존재하는 모든 course를 불러온다. " +
+                    "<p>정렬 기준은 오래된 순이다. (정렬 필요하면 우기에게 말할 것)",
             security = @SecurityRequirement(name = "access-token")
     )
     @GetMapping
-    public CourseListResponse getAllCourses() {
-        List<CourseResponse> courseResponses = courseService.findAllDtos().stream()
+    public CourseListResponse getAllCourses(
+            @Parameter(description = "검색 키워드", example = "제주") @RequestParam(required = false) String keyword
+    ) {
+        List<CourseResponse> courseResponses = courseService.searchDtos(keyword).stream()
                 .map(CourseResponse::from)
                 .toList();
         return CourseListResponse.of(courseResponses);
