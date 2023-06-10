@@ -38,4 +38,11 @@ public class UserHashtagService {
 
         return userHashtagDtos;
     }
+
+    // TODO: User Hashtag 조회
+    public List<UserHashtagDto> findAllByUserId(Long id) {
+        return userHashtagRepository.findAllByUser_Id(id).stream()
+                .map(UserHashtagDto::from)
+                .collect(Collectors.toUnmodifiableList());
+    }
 }
