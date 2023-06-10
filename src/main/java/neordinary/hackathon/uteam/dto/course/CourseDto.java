@@ -10,6 +10,7 @@ import neordinary.hackathon.uteam.dto.place.PlaceDto;
 import neordinary.hackathon.uteam.dto.user.UserDto;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -35,10 +36,10 @@ public class CourseDto {
                 entity.getDescription(),
                 entity.getPlaces().stream()
                         .map(PlaceDto::from)
-                        .toList(),
+                        .collect(Collectors.toUnmodifiableList()),
                 entity.getHashtags().stream()
                         .map(HashtagDto::from)
-                        .toList()
+                        .collect(Collectors.toUnmodifiableList())
         );
     }
 }

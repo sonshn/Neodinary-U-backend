@@ -33,4 +33,7 @@ public class UserHashtag {
         return new UserHashtag(id, user, tag);
     }
 
+    protected void setUser(User user) {
+        this.user = user;
+    }
 }
