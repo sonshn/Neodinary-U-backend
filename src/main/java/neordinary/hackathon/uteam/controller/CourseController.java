@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import neordinary.hackathon.uteam.dto.course.CourseDto;
 import neordinary.hackathon.uteam.dto.course.request.CourseCreateRequest;
 import neordinary.hackathon.uteam.dto.course.response.CourseDescriptionResponse;
+import neordinary.hackathon.uteam.dto.course.response.CourseListResponse;
 import neordinary.hackathon.uteam.dto.course.response.CourseResponse;
 import neordinary.hackathon.uteam.security.UserPrincipal;
 import neordinary.hackathon.uteam.service.CourseService;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @Tag(name = "Course")
 @RequiredArgsConstructor
@@ -58,11 +60,24 @@ public class CourseController {
     }
 
     @Operation(
+            summary = "코스 전체 조회",
+            description = "존재하는 모든 course를 불러온다. 정렬 기준은 오래된 순이다. (정렬 필요하면 우기에게 말할 것)",
+            security = @SecurityRequirement(name = "access-token")
+    )
+    @GetMapping
+    public CourseListResponse getAllCourses() {
+        List<CourseResponse> courseResponses = courseService.findAllDtos().stream()
+                .map(CourseResponse::from)
+                .toList();
+        return CourseListResponse.of(courseResponses);
+    }
+
+    @Operation(
             summary = "코스 설명 자동생성 (feat. gpt)",
             description = "코스 설명을 자동 생성합니다. 수 초가 걸릴 수 있습니다.",
             security = @SecurityRequirement(name = "access-token")
     )
-    @GetMapping
+    @GetMapping("/description/auto")
     public CourseDescriptionResponse createAutoDescription(@RequestParam String query) {
         return CourseDescriptionResponse.of(openAIService.chat(query).getAnswer());
     }

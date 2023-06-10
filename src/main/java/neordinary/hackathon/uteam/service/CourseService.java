@@ -52,4 +52,10 @@ public class CourseService {
     public CourseDto findDtoById(Long courseId) {
         return CourseDto.from(findById(courseId));
     }
+
+    public List<CourseDto> findAllDtos() {
+        return courseRepository.findAll().stream()
+                .map(CourseDto::from)
+                .toList();
+    }
 }
