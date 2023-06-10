@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -34,5 +35,12 @@ public class UserService {
     @Cacheable(value = "user", key = "#userId")
     public UserDto findDtoById(Long userId) {
         return UserDto.from(findById(userId));
+    }
+
+    @Cacheable(value = "user", key = "'point-ranking'")
+    public List<UserDto> findDtosOrderByPointRanking() {
+        return userRepository.findByOrderByPointDesc().stream()
+                .map(UserDto::from)
+                .toList();
     }
 }
