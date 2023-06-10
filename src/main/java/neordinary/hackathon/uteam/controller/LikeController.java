@@ -9,10 +9,7 @@ import neordinary.hackathon.uteam.dto.like.LikeDto;
 import neordinary.hackathon.uteam.security.UserPrincipal;
 import neordinary.hackathon.uteam.service.LikeService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Like(좋아요)")
 @RequiredArgsConstructor
@@ -33,5 +30,18 @@ public class LikeController {
             @Parameter(description = "좋아요 하고자하는 코스의 id(PK)", example = "3") @PathVariable Long courseId
     ) {
         return likeService.likeToCourse(userPrincipal.getUserId(), courseId);
+    }
+
+    @Operation(
+            summary = "코스 좋아요 취소하기",
+            description = "<p><code>courseId</code>에 해당하는 코스에 좋아요한 이력을 삭제한다.",
+            security = @SecurityRequirement(name = "access-token")
+    )
+    @DeleteMapping("/courses/{courseId}")
+    public void cancleLike(
+            @AuthenticationPrincipal UserPrincipal userPrincipal,
+            @Parameter(description = "좋아요를 취소하고자 하는 코스의 id(PK)", example = "3") @PathVariable Long courseId
+    ) {
+        likeService.cancelLike(userPrincipal.getUserId(), courseId);
     }
 }

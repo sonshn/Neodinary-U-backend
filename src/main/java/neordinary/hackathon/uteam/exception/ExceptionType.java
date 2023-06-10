@@ -100,6 +100,7 @@ public enum ExceptionType {
      * 좋아요({@link Like}) 관련 예외
      */
     ALREADY_LIKED_COURSE(3500, "이미 좋아요 한 코스입니다.", AlreadyLikedCourseException.class),
+    NOT_FOUND(3501, "좋아요한 이력을 찾을 수 없습니다.", NotFoundLike.class),
 
     /**
      * Kakao server 관련 예외

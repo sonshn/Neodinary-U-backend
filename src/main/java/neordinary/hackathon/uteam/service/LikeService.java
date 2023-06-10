@@ -5,6 +5,7 @@ import neordinary.hackathon.uteam.domain.Course;
 import neordinary.hackathon.uteam.domain.Like;
 import neordinary.hackathon.uteam.domain.User;
 import neordinary.hackathon.uteam.dto.like.LikeDto;
+import neordinary.hackathon.uteam.exception.NotFoundLike;
 import neordinary.hackathon.uteam.repository.LikeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +29,21 @@ public class LikeService {
         return LikeDto.from(like);
     }
 
+    public void cancelLike(Long userId, Long courseId) {
+        validateExistenceOfLike(userId, courseId);
+        Like like = likeRepository.findByUser_IdAndCourse_Id(userId, courseId).orElseThrow(NotFoundLike::new);
+        likeRepository.delete(like);
+    }
+
     private void validateAlreadyNotExistsLike(Long userId, Long courseId) {
         if (likeRepository.existsByUser_IdAndCourse_Id(userId, courseId)) {
             throw new AlreadyLikedCourseException();
+        }
+    }
+
+    private void validateExistenceOfLike(Long userId, Long courseId) {
+        if (!likeRepository.existsByUser_IdAndCourse_Id(userId, courseId)) {
+            throw new NotFoundLike();
         }
     }
 }
