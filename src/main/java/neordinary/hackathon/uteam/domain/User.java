@@ -8,6 +8,8 @@ import neordinary.hackathon.uteam.constant.user.RoleType;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.LinkedList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -43,6 +45,9 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer point;
 
+    @OneToMany(mappedBy = "user")
+    private List<UserHashtag> userHashtags = new LinkedList<>();
+
     public static User of(String socialUid, LoginType loginType, String name, String profileImageUrl, String profileThumbnailImageUrl) {
         return of(null, socialUid, loginType, RoleType.USER, name, profileImageUrl, profileThumbnailImageUrl, 0, null, null);
     }
@@ -61,5 +66,10 @@ public class User extends BaseTimeEntity {
         this.profileImageUrl = profileImageUrl;
         this.profileThumbnailImageUrl = profileThumbnailImageUrl;
         this.point = point;
+    }
+
+    public void addUserHashtag(UserHashtag userHashtag) {
+        userHashtag.setUser(this);
+        this.getUserHashtags().add(userHashtag);
     }
 }

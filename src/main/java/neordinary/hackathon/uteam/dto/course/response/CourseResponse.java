@@ -9,6 +9,7 @@ import neordinary.hackathon.uteam.dto.place.response.PlaceResponse;
 import neordinary.hackathon.uteam.dto.user.response.UserResponse;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -44,10 +45,10 @@ public class CourseResponse {
                 dto.getDescription(),
                 dto.getPlaceDtos().stream()
                         .map(PlaceResponse::from)
-                        .toList(),
+                        .collect(Collectors.toUnmodifiableList()),
                 dto.getHashtagDtos().stream()
                         .map(hashtag -> "#" + hashtag.getTag())
-                        .toList()
+                        .collect(Collectors.toUnmodifiableList())
         );
     }
 }
