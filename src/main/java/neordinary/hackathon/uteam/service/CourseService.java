@@ -13,6 +13,8 @@ import neordinary.hackathon.uteam.repository.HashtagRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -45,5 +47,15 @@ public class CourseService {
 
     public Course findById(Long courseId) {
         return courseRepository.findById(courseId).orElseThrow(() -> new CourseNotFoundByIdException(courseId));
+    }
+
+    public CourseDto findDtoById(Long courseId) {
+        return CourseDto.from(findById(courseId));
+    }
+
+    public List<CourseDto> findAllDtos() {
+        return courseRepository.findAll().stream()
+                .map(CourseDto::from)
+                .toList();
     }
 }
