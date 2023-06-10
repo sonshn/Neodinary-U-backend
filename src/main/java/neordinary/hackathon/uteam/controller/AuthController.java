@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import neordinary.hackathon.uteam.constant.user.LoginType;
 import neordinary.hackathon.uteam.dto.auth.request.KakaoLoginRequest;
+import neordinary.hackathon.uteam.dto.auth.request.TokenRefreshRequest;
 import neordinary.hackathon.uteam.dto.auth.response.LoginResponse;
 import neordinary.hackathon.uteam.dto.auth.response.TokenResponse;
 import neordinary.hackathon.uteam.dto.kakao.KakaoOAuthUserResponse;
@@ -58,5 +59,18 @@ public class AuthController {
         TokenResponse tokenResponse = jwtTokenService.create(userDto.getId(), LoginType.KAKAO);
 
         return LoginResponse.of(LoggedInUserResponse.from(userDto), tokenResponse);
+    }
+
+    @Operation(
+            summary = "토큰 갱신하기",
+            description = "<p>기존 발급받은 refresh token으로 새로운 access token과 refresh token을 발급 받습니다."
+    )
+    @ApiResponses({
+            @ApiResponse(description = "OK", responseCode = "200", content = @Content(schema = @Schema(implementation = TokenResponse.class))),
+            @ApiResponse(description = "[1502] 유효하지 않은 token으로 요청한 경우. Token 값이 잘못되었거나 만료되어 유효하지 않은 경우로 token 갱신 필요", responseCode = "401", content = @Content),
+    })
+    @PostMapping("/token")
+    public TokenResponse tokenRefresh(@Valid @RequestBody TokenRefreshRequest request) {
+        return jwtTokenService.refresh(request.getRefreshToken());
     }
 }
