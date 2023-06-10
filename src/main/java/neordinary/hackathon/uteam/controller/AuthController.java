@@ -29,7 +29,7 @@ import javax.validation.Valid;
 @Tag(name = "로그인 등 인증 관련")
 @RequiredArgsConstructor
 @Validated
-@RequestMapping("/api/auth")
+@RequestMapping("auth")
 @RestController
 public class AuthController {
 
