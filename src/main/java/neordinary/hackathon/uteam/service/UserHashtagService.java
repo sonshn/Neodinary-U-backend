@@ -16,13 +16,4 @@ import java.util.List;
 @Service
 public class UserHashtagService {
 
-    // private final UserRepository userRepository;
-    private final UserHashtagRepository
-
-    @Transactional
-    public List<UserHashtag> getUserHashtagList(User user) {
-        List<UserHashtag> userHashtagList = plantRepository.findAllByPlaceOrderByRemainderDateDesc(place);
-
-        return userHashtagList;
-    }
 }
