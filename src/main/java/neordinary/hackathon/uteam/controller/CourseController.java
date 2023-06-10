@@ -1,8 +1,10 @@
 package neordinary.hackathon.uteam.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import neordinary.hackathon.uteam.dto.course.CourseDto;
 import neordinary.hackathon.uteam.dto.course.request.CourseCreateRequest;
@@ -43,6 +45,16 @@ public class CourseController {
                 .status(HttpStatus.CREATED)
                 .location(URI.create("/courses/" + course.getId()))
                 .body(CourseResponse.from(course));
+    }
+
+    @Operation(
+            summary = "코스 상세 조회(단건 조회)",
+            description = "<p><code>courseId</code>에 해당하는 코스 정보를 불러온다.",
+            security = @SecurityRequirement(name = "access-token")
+    )
+    @GetMapping("/{courseId}")
+    public CourseResponse getCourseDetail(@Parameter(description = "코스의 id(PK)", example = "3") @PathVariable Long courseId) {
+        return CourseResponse.from(courseService.findDtoById(courseId));
     }
 
     @Operation(
